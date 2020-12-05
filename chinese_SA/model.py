@@ -6,15 +6,14 @@ from simpletransformers.classification import ClassificationModel
 from chinese_SA.dataLoader import DataLoader
 
 class Model():
-    def __init__(self, model_type: str, model_name: str, dataset: DataLoader):
-        self.dataset = dataset
+    def __init__(self, model_type: str, model_name: str):
         self.model_type = model_type
         self.model_name = model_name
         self.model_path = "outputs"
         self.model = None
         self.train_df = None
 
-    def train_model(self):
+    def train_model(self, train_df, num_labels):
         # define hyperparameter
         train_args ={"reprocess_input_data": True,
                      "overwrite_output_dir": True,
@@ -24,10 +23,10 @@ class Model():
         # Create a ClassificationModel
         model = ClassificationModel(
             self.model_type, self.model_name,
-            num_labels=self.dataset.num_labels,
+            num_labels= num_labels,
             args=train_args
         )
-        model.train_model(self.dataset.get_train_df())
+        model.train_model(train_df)
 
         self.model = model
         self._save_model()
@@ -44,3 +43,7 @@ class Model():
             for file in files:
                 f.add(f'{self.model_path}/{file}')
 
+    def eval_model(self, test_df):
+        result, model_outputs, wrong_predictions = self.model.eval_model(test_df)
+        accuracy = (result['tp'] + result['tn'])/len(test_df)
+        return accuracy
