@@ -16,9 +16,9 @@ class DataLoader:
             extract=True,
             cache_dir=".",
         )
-        self.train_file, self.train_df, self.train_num = None
-        self.dev_file, self.dev_df, self.dev_num = None
-        self.test_file, self.test_df, self.test_num = None
+        self.train_file, self.train_df, self.train_num = None, None, None
+        self.dev_file, self.dev_df, self.dev_num = None, None, None
+        self.test_file, self.test_df, self.test_num = None, None, None
 
         self.load_data()
 
