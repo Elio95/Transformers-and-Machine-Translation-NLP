@@ -5,7 +5,6 @@ from chinese_SA.model import Model
 
 models = {
     ('bert', "bert-base-chinese"): None,
-    ('xlnet', 'hfl/chinese-xlnet-base'): None
 }
 
 
