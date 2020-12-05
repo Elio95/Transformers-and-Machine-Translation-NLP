@@ -4,7 +4,7 @@ from chinese_SA.dataLoader import DataLoader
 from chinese_SA.model import Model
 
 models = {
-    ('bert', 'chinese-bert'): None,
+    ('bert', "bert-base-chinese"): None,
     ('xlnet', 'hfl/chinese-xlnet-base'): None
 }
 
