@@ -32,7 +32,7 @@ class DataLoader:
         self.train_num = len(self.train_df)
 
         self.dev_file = os.path.join(self.dataset_dir, "dev.tsv")
-        self.dev_df = self.get_df_from_file(self.test_file)
+        self.dev_df = self.get_df_from_file(self.dev_file)
         self.dev_num = len(self.dev_df)
 
         self.test_file = os.path.join(self.dataset_dir, "test.tsv")
