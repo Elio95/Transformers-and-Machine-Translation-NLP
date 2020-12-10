@@ -5,6 +5,8 @@ import os
 import pandas as pd
 import tensorflow as tf
 
+from google_trans_new import google_translator
+
 URL = "https://paddlehub-dataset.bj.bcebos.com/chnsenticorp.tar.gz"
 
 class DataLoader:
@@ -16,9 +18,10 @@ class DataLoader:
             extract=True,
             cache_dir=".",
         )
-        self.train_file, self.train_df, self.train_num = None, None, None
-        self.dev_file, self.dev_df, self.dev_num = None, None, None
-        self.test_file, self.test_df, self.test_num = None, None, None
+        self.translator = google_translator()
+        self.train_file, self.chin_train_df, self.eng_train_df, self.train_num = None, None, None, None
+        self.dev_file, self.chin_dev_df, self.eng_dev_df, self.dev_num = None, None, None, None
+        self.test_file, self.chin_test_df, self.eng_test_df, self.test_num = None, None, None, None
 
         self.load_data()
 
@@ -28,41 +31,66 @@ class DataLoader:
         :return:
         """
         self.train_file = os.path.join(self.dataset_dir, "train.tsv")
-        self.train_df = self.get_df_from_file(self.train_file)
-        self.train_num = len(self.train_df)
+        self.chin_train_df, self.eng_train_df = self.get_df_from_file(self.train_file)
+        self.train_num = len(self.chin_train_df)
 
         self.dev_file = os.path.join(self.dataset_dir, "dev.tsv")
-        self.dev_df = self.get_df_from_file(self.dev_file)
-        self.dev_num = len(self.dev_df)
+        self.chin_dev_df, self.eng_dev_df = self.get_df_from_file(self.dev_file)
+        self.dev_num = len(self.chin_dev_df)
 
         self.test_file = os.path.join(self.dataset_dir, "test.tsv")
-        self.test_df = self.get_df_from_file(self.test_file)
-        self.test_df["labels"] = self.test_df["labels"].apply(lambda x: x[0])
-        self.test_num = len(self.test_df)
+        self.chin_test_df, self.eng_test_df = self.get_df_from_file(self.test_file)
+        self.chin_test_df["labels"] = self.chin_test_df["labels"].apply(lambda x: x[0])
+        self.eng_test_df["labels"] = self.eng_test_df["labels"].apply(lambda x: x[0])
+        self.test_num = len(self.chin_dev_df)
 
-    def get_train_df(self):
+    def get_chin_train_df(self):
         """
         Return the data frame containing the training data
         Contains columns text: str, labels: list<int>
-        :return: train_df
+        :return: chin_train_df
         """
-        return self.train_df
+        return self.chin_train_df
 
-    def get_dev_df(self):
+    def get_eng_train_df(self):
+        """
+        Return the data frame containing the training data
+        Contains columns text: str, labels: list<int>
+        :return: eng_train_df
+        """
+        return self.eng_train_df
+
+    def get_chin_dev_df(self):
+        """
+        Return the data frame containing the development data
+        Contains columns text: str, labels: list<int>
+        :return: chin_dev_df
+        """
+        return self.chin_dev_df
+
+    def get_eng_dev_df(self):
         """
         Return the data frame containing the development data
         Contains columns text: str, labels: list<int>
         :return: dev_df
         """
-        return self.dev_df
+        return self.eng_dev_df
 
-    def get_test_df(self):
+    def get_chin_test_df(self):
         """
         Return the data frame containing the testing data
         Contains columns text: str, labels: int
-        :return: test_df
+        :return: chin_test_df
         """
-        return self.test_df
+        return self.chin_test_df
+
+    def get_eng_test_df(self):
+        """
+        Return the data frame containing the english testing data
+        Contains columns text: str, labels: int
+        :return: eng_test_df
+        """
+        return self.eng_test_df
 
     def get_labels(self):
         """
@@ -85,16 +113,24 @@ class DataLoader:
         """
         with codecs.open(input_file, "r", encoding="UTF-8") as f:
             reader = csv.reader(f, delimiter="\t")
-            data = []
+            chin_data = []
+            eng_data = []
             seq_id = 0
             header = next(reader)  # skip header
             for line in reader:
-                data.append([line[1], line[0]])
+                translation = self.translator.translate(line[1], lang_tgt='en')
+                chin_data.append([line[1], line[0]])
+                eng_data.append([translation, line[0]])
+
                 seq_id += 1
-            df = pd.DataFrame(data)
-            df.columns = ["text", "labels"]
-            df["labels"] = df["labels"].apply(lambda x: list(map(int, x)))
-            return df
+            chin_df = pd.DataFrame(chin_data)
+            eng_df = pd.DataFrame(eng_data)
+            chin_df.columns = ["text", "labels"]
+            chin_df["labels"] = chin_df["labels"].apply(lambda x: list(map(int, x)))
+
+            eng_df.columns = ["text", "labels"]
+            eng_df["labels"] = eng_df["labels"].apply(lambda x: list(map(int, x)))
+            return chin_df, eng_df
 
     def print_info(self):
         """
@@ -102,15 +138,18 @@ class DataLoader:
         :return: None
         """
         print("training data:")
-        print(self.get_train_df().head())
+        print(self.get_train_df()[0].head())
+        print(self.get_train_df()[1].head())
         print("\n")
 
         print("dev data:")
-        print(self.get_dev_df().head())
+        print(self.get_dev_df()[0].head())
+        print(self.get_dev_df()[1].head())
         print("\n")
 
         print("test data:")
-        print(self.get_test_df().head())
+        print(self.get_test_df()[0].head())
+        print(self.get_test_df()[1].head())
         print("\n")
 
         print("Train number:{}, Dev number:{}, Test number:{}".format(self.train_num, self.dev_num, self.test_num))
