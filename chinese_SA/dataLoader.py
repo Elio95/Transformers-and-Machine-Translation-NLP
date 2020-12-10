@@ -119,6 +119,7 @@ class DataLoader:
             header = next(reader)  # skip header
             for line in reader:
                 translation = self.translator.translate(line[1], lang_tgt='en')
+                print(translation)
                 chin_data.append([line[1], line[0]])
                 eng_data.append([translation, line[0]])
 
