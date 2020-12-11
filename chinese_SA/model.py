@@ -26,7 +26,7 @@ class Model():
             num_labels= num_labels,
             args=train_args
         )
-        model.train_model(train_df)
+        model.train_model(train_df, verbose=False)
 
         self.model = model
         self._save_model()

@@ -17,14 +17,14 @@ def unpack_model(model_name):
 data = DataLoader()
 model_tuple = ('bert', 'bert-base-cased')
 model = Model(*model_tuple)
-model.train_model(data.get_eng_train_df(), data.num_labels, verbose=False)
+model.train_model(data.get_eng_train_df(), data.num_labels)
 accuracy = model.eval_model(data.get_chin_test_df())
 print(accuracy)
 
 """
 for model_tuple in models:
     model = Model(*model_tuple)
-    model.train_model(data.get_chin_train_df(), data.num_labels, verbose=False)
+    model.train_model(data.get_chin_train_df(), data.num_labels)
     models[model_tuple] = model
 
 for model in models.values():
