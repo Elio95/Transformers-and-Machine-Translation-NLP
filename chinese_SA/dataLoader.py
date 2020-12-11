@@ -30,19 +30,25 @@ class DataLoader:
         Update the variables with the input
         :return:
         """
+
+        print("load training data")
         self.train_file = os.path.join(self.dataset_dir, "train.tsv")
         self.chin_train_df, self.eng_train_df = self.get_df_from_file(self.train_file)
         self.train_num = len(self.chin_train_df)
 
+        print("load dev data")
         self.dev_file = os.path.join(self.dataset_dir, "dev.tsv")
         self.chin_dev_df, self.eng_dev_df = self.get_df_from_file(self.dev_file)
         self.dev_num = len(self.chin_dev_df)
 
+        print("load test data")
         self.test_file = os.path.join(self.dataset_dir, "test.tsv")
         self.chin_test_df, self.eng_test_df = self.get_df_from_file(self.test_file)
         self.chin_test_df["labels"] = self.chin_test_df["labels"].apply(lambda x: x[0])
         self.eng_test_df["labels"] = self.eng_test_df["labels"].apply(lambda x: x[0])
         self.test_num = len(self.chin_dev_df)
+
+        print("loading done")
 
     def get_chin_train_df(self):
         """
@@ -118,7 +124,7 @@ class DataLoader:
             seq_id = 0
             header = next(reader)  # skip header
             for line in reader:
-                translation = self.translator.translate(line[1], lang_tgt='en')
+                translation = self.translator.translate(line[1].encode('unicode_escape'), lang_tgt='en')
                 chin_data.append([line[1], line[0]])
                 eng_data.append([translation, line[0]])
 
