@@ -1,7 +1,8 @@
+import os
 import tarfile
 
-from chinese_SA.dataLoader import DataLoader
-from chinese_SA.model import Model
+from dataModels.dataModel import ChnSentiCorp, IMDB
+from models.model import Model
 
 models = {
     ('bert', "bert-base-chinese"): None,
@@ -14,7 +15,8 @@ def unpack_model(model_name):
     tar.close()
 
 
-data = DataLoader()
+chnSentiCorp = ChnSentiCorp(os.path.join(".", "datasets/chnsenticorp"))
+imdb = IMDB(os.path.join(".", "datasets/IMDB"))
 for model_tuple in models:
     model = Model(*model_tuple)
     model.train_model(data.get_train_df(), data.num_labels)

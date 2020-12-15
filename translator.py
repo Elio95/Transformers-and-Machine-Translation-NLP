@@ -13,9 +13,13 @@ def translate_csv(dir, file, target_lang):
         header = next(reader)
         csv_temp.append(header)
         for line in reader:
-            translation = translator.translate(line[1], lang_tgt=target_lang)
+            try:
+                translation = translator.translate(line[1], lang_tgt=target_lang)
+            except Exception:
+                print("Error at line " + len(csv_temp))
+                break
             csv_temp.append([line[0], translation])
-            print(len(csv_temp))
+
     with open(dir+'/' + target_lang+"_"+file, 'w') as out_file:
         tsv_writer = csv.writer(out_file, delimiter='\t')
         for line in csv_temp:
@@ -61,11 +65,6 @@ def split_imdb():
                 dev_writer.writerow([1, line.decode('unicode_escape').strip()])
 
 
-dir = os.path.join(".", "datasets/chnsenticorp")
-translate_csv(dir, "dev.tsv", "en")
-
 dir = os.path.join(".", "datasets/IMDB")
-translate_csv(dir, "dev.tsv", "zh")
-translate_csv(dir, "test.tsv", "zh")
 translate_csv(dir, "train.tsv", "zh")
 
