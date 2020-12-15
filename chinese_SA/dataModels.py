@@ -124,11 +124,13 @@ class dataModel(ABC):
 
         print("Train number:{}, Dev number:{}, Test number:{}".format(self.train_num, self.dev_num, self.test_num))
 
+    def set_dir(self, dataset_dir):
+        self.dataset_dir = dataset_dir
 
 class ChnSentiCorp(dataModel):
     def __init__(self):
-        self.dataset_dir = os.path.join(".", "datasets/chnsenticorp")
         super().__init__()
+        self.set_dir(os.path.join(".", "datasets/chnsenticorp"))
 
 
     def load_data(self):
@@ -162,8 +164,8 @@ class ChnSentiCorp(dataModel):
 
 class IMDB(dataModel):
     def __init__(self):
-        self.dataset_dir = os.path.join(".", "datasets/IMDB")
         super().__init__()
+        self.set_dir(os.path.join(".", "datasets/IMDB"))
 
 
     def load_data(self):
