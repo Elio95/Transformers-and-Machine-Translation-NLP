@@ -85,7 +85,7 @@ class dataModel(ABC):
         :param input_file: file containing the data
         :return: file converted
         """
-        with codecs.open(input_file, "rt", encoding="UTF-8") as f:
+        with open(input_file, "rt", encoding="UTF-8") as f:
             reader = csv.reader(f, delimiter="\t")
             data = []
             seq_id = 0
