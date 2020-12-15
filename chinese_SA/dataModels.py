@@ -14,8 +14,6 @@ class dataModel(ABC):
         self.dev_file, self.chin_dev_df, self.eng_dev_df, self.dev_num = None, None, None, None
         self.test_file, self.chin_test_df, self.eng_test_df, self.test_num = None, None, None, None
 
-        self.load_data()
-
     def get_chin_train_df(self):
         """
         Return the data frame containing the training data
@@ -132,6 +130,7 @@ class ChnSentiCorp(dataModel):
         super().__init__()
         self.set_dir(os.path.join(".", "datasets/chnsenticorp"))
 
+        self.load_data()
 
     def load_data(self):
         """
@@ -167,6 +166,7 @@ class IMDB(dataModel):
         super().__init__()
         self.set_dir(os.path.join(".", "datasets/IMDB"))
 
+        self.load_data()
 
     def load_data(self):
         """
