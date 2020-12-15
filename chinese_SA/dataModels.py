@@ -127,8 +127,9 @@ class dataModel(ABC):
 
 class ChnSentiCorp(dataModel):
     def __init__(self):
-        super().__init__()
         self.dataset_dir = os.path.join(".", "datasets/chnsenticorp")
+        super().__init__()
+
 
     def load_data(self):
         """
