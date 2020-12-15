@@ -9,7 +9,7 @@ from google_trans_new import google_translator
 
 URL = "https://paddlehub-dataset.bj.bcebos.com/chnsenticorp.tar.gz"
 
-class DataLoader:
+class ChnSentiCorp:
     def __init__(self):
         self.dataset_dir = os.path.join(".", "datasets/chnsenticorp")
         file_path = tf.keras.utils.get_file(
