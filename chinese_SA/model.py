@@ -3,7 +3,6 @@ import tarfile
 
 from pandas.core.frame import DataFrame
 from simpletransformers.classification import ClassificationModel
-from chinese_SA.dataLoader import DataLoader
 
 class Model():
     def __init__(self, model_type: str, model_name: str):
@@ -11,7 +10,6 @@ class Model():
         self.model_name = model_name
         self.model_path = "outputs"
         self.model = None
-        self.train_df = None
 
     def train_model(self, train_df, num_labels):
         # define hyperparameter
