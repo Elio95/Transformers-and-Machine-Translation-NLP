@@ -7,8 +7,8 @@ import pandas as pd
 from abc import ABC, abstractmethod
 
 class dataModel(ABC):
-    def __init__(self, dir):
-        self.dataset_dir = dir
+    def __init__(self):
+        self.dataset_dir = None
 
         self.train_file, self.chin_train_df, self.eng_train_df, self.train_num = None, None, None, None
         self.dev_file, self.chin_dev_df, self.eng_dev_df, self.dev_num = None, None, None, None
@@ -126,8 +126,9 @@ class dataModel(ABC):
 
 
 class ChnSentiCorp(dataModel):
-    def __init__(self, dataset_dir):
-        super().__init__(dataset_dir)
+    def __init__(self):
+        super().__init__()
+        self.dataset_dir = os.path.join(".", "datasets/chnsenticorp")
 
     def load_data(self):
         """
@@ -159,8 +160,9 @@ class ChnSentiCorp(dataModel):
 
 
 class IMDB(dataModel):
-    def __init__(self, dataset_dir):
-        super().__init__(dataset_dir)
+    def __init__(self):
+        super().__init__()
+        self.dataset_dir = os.path.join(".", "datasets/IMDB")
 
     def load_data(self):
         """
@@ -192,8 +194,8 @@ class IMDB(dataModel):
 
 
 class MixedDatasets(dataModel):
-    def __init__(self, directory):
-        super().__init__(directory)
+    def __init__(self):
+        super().__init__()
         self.dataset_dir = os.path.join(".", "datasets")
 
     def load_data(self):
