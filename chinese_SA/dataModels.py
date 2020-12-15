@@ -161,8 +161,9 @@ class ChnSentiCorp(dataModel):
 
 class IMDB(dataModel):
     def __init__(self):
-        super().__init__()
         self.dataset_dir = os.path.join(".", "datasets/IMDB")
+        super().__init__()
+
 
     def load_data(self):
         """
