@@ -14,7 +14,7 @@ class IMDB(dataModel):
         :return:
         """
 
-        print("load chinese training data")
+        print("load IMDB training data")
         self.train_file = os.path.join(self.dataset_dir, "train.tsv")
         self.eng_train_df = self.get_df_from_file(self.train_file)
         self.chin_train_df = self.get_df_from_file(os.path.join(self.dataset_dir, "zh_train.tsv"))
@@ -34,4 +34,4 @@ class IMDB(dataModel):
         self.chin_test_df["labels"] = self.chin_test_df["labels"].apply(lambda x: x[0])
         self.test_num = len(self.chin_dev_df)
 
-        print("loading Chinese data done")
+        print("loading IMDB data done")
