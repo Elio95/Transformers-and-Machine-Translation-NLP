@@ -21,7 +21,7 @@ class Model():
         # Create a ClassificationModel
         model = ClassificationModel(
             self.model_type, self.model_name,
-            num_labels= num_labels,
+            num_labels=num_labels,
             args=train_args
         )
         model.train_model(train_df)
