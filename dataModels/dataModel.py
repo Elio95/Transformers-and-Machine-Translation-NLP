@@ -106,18 +106,18 @@ class dataModel(ABC):
         :return: None
         """
         print("training data:")
-        print(self.get_chin_train_df()[0].head())
-        print(self.get_eng_train_df()[1].head())
+        print(self.get_chin_train_df().head())
+        print(self.get_eng_train_df().head())
         print("\n")
 
         print("dev data:")
-        print(self.get_chin_dev_df()[0].head())
-        print(self.get_eng_dev_df()[1].head())
+        print(self.get_chin_dev_df().head())
+        print(self.get_eng_dev_df().head())
         print("\n")
 
         print("test data:")
-        print(self.get_chin_test_df()[0].head())
-        print(self.get_eng_test_df()[1].head())
+        print(self.get_chin_test_df().head())
+        print(self.get_eng_test_df().head())
         print("\n")
 
         print("Train number:{}, Dev number:{}, Test number:{}".format(self.train_num, self.dev_num, self.test_num))

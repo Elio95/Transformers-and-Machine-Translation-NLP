@@ -10,6 +10,8 @@ class MixedDatasets(dataModel):
         super().__init__()
         self.dataset_dir = os.path.join(".", "datasets")
 
+        self.load_data()
+
     def load_data(self):
         chinSentiCorp = ChnSentiCorp()
         imdb = IMDB()
