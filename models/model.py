@@ -27,7 +27,7 @@ class Model():
         model.train_model(train_df)
 
         self.model = model
-        self._save_model()
+        # self._save_model()
 
     def is_trained(self) -> bool:
         return self.model is not None
