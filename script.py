@@ -1,7 +1,7 @@
 import os
 import tarfile
 
-from dataModels.dataModel import ChnSentiCorp, IMDB
+from dataModels.mixImdbChin import MixedDatasets
 from models.model import Model
 
 models = {
@@ -15,13 +15,5 @@ def unpack_model(model_name):
     tar.close()
 
 
-chnSentiCorp = ChnSentiCorp(os.path.join(".", "datasets/chnsenticorp"))
-imdb = IMDB(os.path.join(".", "datasets/IMDB"))
-for model_tuple in models:
-    model = Model(*model_tuple)
-    model.train_model(data.get_train_df(), data.num_labels)
-    models[model_tuple] = model
-
-for model in models.values():
-    accuracy = model.eval_model(data.get_test_df())
-    print(accuracy)
+mix = MixedDatasets()
+mix.print_info()
